@@ -1,18 +1,9 @@
-# Salesforce DX Project: Next Steps
+# Lead Country to Continent Mapping
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+This repo contains the results of our March 12th 2021 military trailblazer office hours call.  During the call, we discussed the following use case:  from a lead record, we want to be able to enter a Country, and from that Country, we want to automatically update a Continent field.  We followed two approaches:  1) creating a custom object to hold the country to continent mapping and 2) using a custom metadata type to do the same.
 
-## How Do You Plan to Deploy Your Changes?
+In both cases, we used a record triggered flow that triggers based on a Lead being inserted or updated, finds the appropriate continent reference record, then updates the lead.
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+Call recording can be found in the Office Hours group within the Military Trailblazer community.
 
-## Configure Your Salesforce DX Project
-
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
-
-## Read All About It
-
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+![image](https://user-images.githubusercontent.com/1509672/110984077-a388f080-8338-11eb-806d-49a5fce45d37.png)
