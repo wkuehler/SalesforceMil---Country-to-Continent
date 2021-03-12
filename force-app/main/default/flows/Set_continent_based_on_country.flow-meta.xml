@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <assignments>
+        <name>Set_continent</name>
+        <label>Set continent</label>
+        <locationX>813</locationX>
+        <locationY>71</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Continent__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_the_appropriate_continent.Continent__c</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Set_continent_0</name>
+        <label>Set continent</label>
+        <locationX>933</locationX>
+        <locationY>334</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Continent__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Country_CMDT.Continent__c</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <name>Did_we_find_a_continent_record</name>
+        <label>Did we find a continent record</label>
+        <locationX>652</locationX>
+        <locationY>68</locationY>
+        <defaultConnectorLabel>Nope</defaultConnectorLabel>
+        <rules>
+            <name>Yes_we_did</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_the_appropriate_continent</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Yes, we did</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Did_we_find_a_continent_record_0</name>
+        <label>Did we find a continent record</label>
+        <locationX>563</locationX>
+        <locationY>326</locationY>
+        <defaultConnectorLabel>Nope</defaultConnectorLabel>
+        <rules>
+            <name>Yes_we_did_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Country_CMDT</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_continent_0</targetReference>
+            </connector>
+            <label>Yes, we did</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_the_country_field_populated</name>
+        <label>Is the country field populated?</label>
+        <locationX>168</locationX>
+        <locationY>308</locationY>
+        <defaultConnectorLabel>No, it is not populated</defaultConnectorLabel>
+        <rules>
+            <name>Yes_it_is_populated</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Country</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Country_CMDT</targetReference>
+            </connector>
+            <label>Yes, it is populated</label>
+        </rules>
+    </decisions>
+    <interviewLabel>Set continent based on country {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Set continent based on country</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Country_CMDT</name>
+        <label>Get Country CMDT</label>
+        <locationX>406</locationX>
+        <locationY>325</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Did_we_find_a_continent_record_0</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>QualifiedApiName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Country</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ContinentRef__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_the_appropriate_continent</name>
+        <label>Get the appropriate continent</label>
+        <locationX>515</locationX>
+        <locationY>84</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Country__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Country</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Country_to_Continent__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>50</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>Is_the_country_field_populated</targetReference>
+        </connector>
+        <object>Lead</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
